@@ -4,8 +4,10 @@ import eu.ase.ro.clinica.dto.request.AppointmentRequest;
 import eu.ase.ro.clinica.dto.response.AppointmentResponse;
 import eu.ase.ro.clinica.model.Appointment;
 import eu.ase.ro.clinica.model.AppointmentStatus;
+import eu.ase.ro.clinica.model.Doctor;
 import eu.ase.ro.clinica.repository.AppointmentRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -21,17 +23,21 @@ import java.util.List;
  * doar daca mai sunt minim {@link #MIN_HOURS_BEFORE_CANCEL} ore pana la programare.
  */
 @Service
+@DependsOn("doctorService") // medicii trebuie populati inainte de programari
 public class AppointmentService {
 
     // Constrangerea temporala: anulare permisa cu minim X ore inainte
     private static final int MIN_HOURS_BEFORE_CANCEL = 24;
 
     private final AppointmentRepository appointmentRepository;
+    private final DoctorService doctorService;
     private final NotificationService notificationService;
 
     public AppointmentService(AppointmentRepository appointmentRepository,
+                              DoctorService doctorService,
                               NotificationService notificationService) {
         this.appointmentRepository = appointmentRepository;
+        this.doctorService = doctorService;
         this.notificationService = notificationService;
     }
 
@@ -49,11 +55,12 @@ public class AppointmentService {
                 }
                 // format: patientName,patientEmail,doctorName,zilePanaLaProgramare,reason
                 String[] parts = line.split(",");
+                Doctor doctor = doctorService.getEntityByName(parts[2].trim());
                 LocalDateTime when = LocalDateTime.now()
                         .plusDays(Long.parseLong(parts[3].trim()))
                         .withHour(10).withMinute(0).withSecond(0).withNano(0);
                 Appointment appointment = new Appointment(parts[0].trim(), parts[1].trim(),
-                        parts[2].trim(), when, parts[4].trim());
+                        doctor, when, parts[4].trim());
                 appointmentRepository.save(appointment);
             }
         } catch (Exception e) {
@@ -80,9 +87,10 @@ public class AppointmentService {
     }
 
     public void create(AppointmentRequest request) {
+        Doctor doctor = doctorService.getEntityById(request.getDoctorId());
         LocalDateTime when = LocalDateTime.parse(request.getAppointmentDateTime());
         Appointment appointment = new Appointment(request.getPatientName(),
-                request.getPatientEmail(), request.getDoctorName(), when, request.getReason());
+                request.getPatientEmail(), doctor, when, request.getReason());
         appointmentRepository.save(appointment);
         notificationService.send(appointment.getPatientEmail(),
                 "Programarea ta a fost solicitata pentru " + when + ".");
@@ -131,11 +139,13 @@ public class AppointmentService {
     private AppointmentResponse toResponse(Appointment appointment) {
         boolean cancellable = appointment.getStatus().canBeCancelledByPatient()
                 && hasEnoughTimeToCancel(appointment.getAppointmentDateTime());
+        Doctor doctor = appointment.getDoctor();
         return new AppointmentResponse(
                 appointment.getId(),
                 appointment.getPatientName(),
                 appointment.getPatientEmail(),
-                appointment.getDoctorName(),
+                doctor != null ? doctor.getName() : null,
+                doctor != null ? doctor.getSpecialization() : null,
                 appointment.getAppointmentDateTime(),
                 appointment.getReason(),
                 appointment.getStatus().name(),

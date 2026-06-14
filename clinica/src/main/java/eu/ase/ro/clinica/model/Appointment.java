@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 /**
  * Programare facuta de un pacient la un medic.
  * Are data+ora (pentru constrangerea de anulare cu X ore inainte) si un motiv obligatoriu.
+ * Medicul este o relatie reala catre entitatea {@link Doctor} (foreign key).
  */
 @Entity
 @Table(name = "appointments")
@@ -18,7 +19,12 @@ public class Appointment {
 
     private String patientName;
     private String patientEmail;
-    private String doctorName;          // numele medicului ales din catalog
+
+    // Relatie: mai multe programari pot fi la acelasi medic
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
     private LocalDateTime appointmentDateTime;
     private String reason;             // motiv obligatoriu la creare
 
@@ -27,11 +33,11 @@ public class Appointment {
 
     public Appointment() {}
 
-    public Appointment(String patientName, String patientEmail, String doctorName,
+    public Appointment(String patientName, String patientEmail, Doctor doctor,
                        LocalDateTime appointmentDateTime, String reason) {
         this.patientName = patientName;
         this.patientEmail = patientEmail;
-        this.doctorName = doctorName;
+        this.doctor = doctor;
         this.appointmentDateTime = appointmentDateTime;
         this.reason = reason;
         this.status = AppointmentStatus.SOLICITATA;
@@ -45,8 +51,8 @@ public class Appointment {
     public String getPatientEmail() { return patientEmail; }
     public void setPatientEmail(String patientEmail) { this.patientEmail = patientEmail; }
 
-    public String getDoctorName() { return doctorName; }
-    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+    public Doctor getDoctor() { return doctor; }
+    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
 
     public LocalDateTime getAppointmentDateTime() { return appointmentDateTime; }
     public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {

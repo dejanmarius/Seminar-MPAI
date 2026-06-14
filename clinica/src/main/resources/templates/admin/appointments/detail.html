@@ -6,7 +6,8 @@
 
 <p>Pacient: <span th:text="${appointment.patientName}"></span></p>
 <p>Email: <span th:text="${appointment.patientEmail}"></span></p>
-<p>Medic: <span th:text="${appointment.doctorName}"></span></p>
+<p>Medic: <span th:text="${appointment.doctorName}"></span>
+    (<span th:text="${appointment.doctorSpecialization}"></span>)</p>
 <p>Data si ora: <span th:text="${appointment.appointmentDateTime}"></span></p>
 <p>Motiv: <span th:text="${appointment.reason}"></span></p>
 <p>Stare curenta: <strong th:text="${appointment.status}"></strong></p>

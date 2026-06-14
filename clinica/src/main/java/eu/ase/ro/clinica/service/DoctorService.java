@@ -51,6 +51,18 @@ public class DoctorService {
                 .orElseThrow(() -> new RuntimeException("Medicul nu a fost gasit: " + id));
     }
 
+    /** Entitatea Doctor (folosita intern de AppointmentService pentru relatie). */
+    public Doctor getEntityById(Long id) {
+        return doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Medicul nu a fost gasit: " + id));
+    }
+
+    /** Cauta medicul dupa nume (folosit la popularea initiala din fisier). */
+    public Doctor getEntityByName(String name) {
+        return doctorRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Medicul nu a fost gasit: " + name));
+    }
+
     public void create(DoctorRequest request) {
         doctorRepository.save(new Doctor(request.getName(), request.getSpecialization()));
     }

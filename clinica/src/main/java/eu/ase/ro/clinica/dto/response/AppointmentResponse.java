@@ -7,7 +7,8 @@ public class AppointmentResponse {
     private Long id;
     private String patientName;
     private String patientEmail;
-    private String doctorName;
+    private String doctorName;            // extras din relatia Doctor in mapper
+    private String doctorSpecialization;  // extras din relatia Doctor in mapper
     private LocalDateTime appointmentDateTime;
     private String reason;
     private String status;            // String, nu enum (nu expune modelul in view)
@@ -16,12 +17,14 @@ public class AppointmentResponse {
     public AppointmentResponse() {}
 
     public AppointmentResponse(Long id, String patientName, String patientEmail,
-                               String doctorName, LocalDateTime appointmentDateTime,
+                               String doctorName, String doctorSpecialization,
+                               LocalDateTime appointmentDateTime,
                                String reason, String status, boolean cancellable) {
         this.id = id;
         this.patientName = patientName;
         this.patientEmail = patientEmail;
         this.doctorName = doctorName;
+        this.doctorSpecialization = doctorSpecialization;
         this.appointmentDateTime = appointmentDateTime;
         this.reason = reason;
         this.status = status;
@@ -39,6 +42,11 @@ public class AppointmentResponse {
 
     public String getDoctorName() { return doctorName; }
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+
+    public String getDoctorSpecialization() { return doctorSpecialization; }
+    public void setDoctorSpecialization(String doctorSpecialization) {
+        this.doctorSpecialization = doctorSpecialization;
+    }
 
     public LocalDateTime getAppointmentDateTime() { return appointmentDateTime; }
     public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {

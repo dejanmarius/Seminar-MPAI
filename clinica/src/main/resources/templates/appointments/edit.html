@@ -14,9 +14,9 @@
     </div>
     <div>
         <label>Medic:</label>
-        <select name="doctorName" required>
+        <select name="doctorId" required>
             <option th:each="d : ${doctors}"
-                    th:value="${d.name}"
+                    th:value="${d.id}"
                     th:text="${d.name + ' (' + d.specialization + ')'}"></option>
         </select>
     </div>

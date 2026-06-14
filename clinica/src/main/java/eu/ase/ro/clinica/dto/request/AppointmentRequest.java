@@ -5,7 +5,7 @@ public class AppointmentRequest {
 
     private String patientName;
     private String patientEmail;
-    private String doctorName;
+    private Long doctorId;              // id-ul medicului ales din dropdown
     private String appointmentDateTime; // string ISO din <input type="datetime-local">
     private String reason;
 
@@ -15,8 +15,8 @@ public class AppointmentRequest {
     public String getPatientEmail() { return patientEmail; }
     public void setPatientEmail(String patientEmail) { this.patientEmail = patientEmail; }
 
-    public String getDoctorName() { return doctorName; }
-    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+    public Long getDoctorId() { return doctorId; }
+    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
 
     public String getAppointmentDateTime() { return appointmentDateTime; }
     public void setAppointmentDateTime(String appointmentDateTime) {
