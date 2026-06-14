@@ -1,0 +1,6 @@
+# Format: name,specialization
+Dr. Ionescu,Cardiologie
+Dr. Vasile,Medicina generala
+Dr. Georgescu,Analize medicale
+Dr. Popa,Dermatologie
+Dr. Marin,Neurologie

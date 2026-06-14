@@ -1,0 +1,6 @@
+# Format: name,description,available(true/false)
+Microscop optic,Laborator biologie,true
+Proiector Full HD,Sala de curs,true
+Laptop Dell,Configuratie performanta,true
+Trusa scule electrice,Atelier mecanic,false
+Camera foto DSLR,Studio foto,true

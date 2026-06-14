@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Inregistrari</title>
+    <!-- Adaugam putin CSS de baza pentru a arata ok -->
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 10px;}
+        .btn-edit { background-color: #2196F3; padding: 6px 12px;}
+    </style>
+</head>
+<body>
+    <h1>Gestiune Date Examen</h1>
+    
+    <a href="/items/add" class="btn">Adauga Inregistrare Noua</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>SubItem (Echipament/Medic/Client)</th>
+                <th>Descriere (Motiv/Observatii)</th>
+                <th>Data</th>
+                <th>Stare</th>
+                <th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iteram prin lista de DTO-uri: ItemResponse -->
+            <tr th:each="item : ${items}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.subItem != null ? item.subItem.name : 'N/A'}"></td>
+                <td th:text="${item.description}"></td>
+                <td th:text="${item.date}"></td>
+                <td th:text="${item.state}"></td>
+                <td>
+                    <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-edit">Modifica / Schimba Stare</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

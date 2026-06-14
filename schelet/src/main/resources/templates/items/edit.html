@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adauga nou</title><!-- TODO: rename -->
+</head>
+<body>
+    <h1>Adauga inregistrare noua</h1><!-- TODO: rename -->
+
+    <!-- th:action genereaza URL-ul corect cu context-path -->
+    <form th:action="@{/items/save}" method="post"><!-- TODO: rename /items -->
+
+        <!-- name="ownerName" trebuie sa corespunda cu campul din ItemRequest -->
+        <div>
+            <label>Nume:</label><!-- TODO: rename label -->
+            <input name="ownerName" type="text" required/><!-- TODO: rename name -->
+        </div>
+        <div>
+            <label>Email:</label>
+            <input name="ownerEmail" type="email" required/><!-- TODO: rename name -->
+        </div>
+        <div>
+            <label>Descriere:</label><!-- TODO: rename label (Motiv/Scop/etc.) -->
+            <input name="description" type="text" required/><!-- TODO: rename name -->
+        </div>
+        <!-- TODO: adauga campuri specifice domeniului
+             S2: <input name="doctorName" type="text"/>
+             S2: <input name="appointmentDate" type="date"/>
+             S3: <input name="startDate" type="date"/>
+             S3: <input name="endDate" type="date"/>
+        -->
+
+        <button type="submit">Salveaza</button>
+    </form>
+
+    <a th:href="@{/items}">&#8592; Inapoi</a><!-- TODO: rename /items -->
+</body>
+</html>

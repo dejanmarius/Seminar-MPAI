@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Magazin Virtual</title>
+</head>
+<body>
+    <h1>Magazin Virtual</h1>
+
+    <div>
+        <h2>Client</h2>
+        <p>Plaseaza si urmareste comenzile tale.</p>
+        <a th:href="@{/orders}">
+            <button>Mergi la interfata client</button>
+        </a>
+    </div>
+
+    <hr/>
+
+    <div>
+        <h2>Administrator</h2>
+        <p>Vizualizeaza si gestioneaza toate comenzile.</p>
+        <a th:href="@{/admin/orders}">
+            <button>Mergi la interfata admin</button>
+        </a>
+    </div>
+</body>
+</html>

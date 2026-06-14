@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Echipament</title></head>
+<body>
+<h1 th:text="${editing} ? 'Editeaza echipament' : 'Adauga echipament'"></h1>
+
+<form th:action="${editing}
+            ? @{'/admin/equipments/' + ${equipment.id} + '/update'}
+            : @{/admin/equipments/save}"
+      method="post">
+    <div>
+        <label>Nume:</label>
+        <input name="name" type="text" th:value="${equipment.name}" required/>
+    </div>
+    <div>
+        <label>Descriere:</label>
+        <input name="description" type="text" th:value="${equipment.description}"/>
+    </div>
+    <div>
+        <label>Disponibil:</label>
+        <input name="available" type="checkbox" value="true" th:checked="${equipment.available}"/>
+    </div>
+    <button type="submit">Salveaza</button>
+</form>
+
+<a th:href="@{/admin/equipments}">&#8592; Inapoi la catalog</a>
+</body>
+</html>

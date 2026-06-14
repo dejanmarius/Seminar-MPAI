@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Cerere noua</title></head>
+<body>
+<h1>Cerere de inchiriere</h1>
+<form th:action="@{/rentals/save}" method="post">
+    <div>
+        <label>Nume utilizator:</label>
+        <input name="userName" type="text" required/>
+    </div>
+    <div>
+        <label>Email:</label>
+        <input name="userEmail" type="email" required/>
+    </div>
+    <div>
+        <label>Echipament:</label>
+        <select name="equipmentId" required>
+            <option th:each="e : ${equipments}"
+                    th:value="${e.id}"
+                    th:text="${e.name + ' - ' + e.description}"></option>
+        </select>
+    </div>
+    <div>
+        <label>De la:</label>
+        <input name="startDate" type="date" required/>
+    </div>
+    <div>
+        <label>Pana la:</label>
+        <input name="endDate" type="date" required/>
+    </div>
+    <div>
+        <label>Scop:</label>
+        <input name="purpose" type="text" required/>
+    </div>
+    <button type="submit">Trimite cererea</button>
+</form>
+<a th:href="@{/rentals}">&#8592; Inapoi</a>
+</body>
+</html>

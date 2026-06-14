@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MPAI Spring MVC Demo</title>
+</head>
+<body>
+<p>This is MPAI Spring MVC Demo Students page</p>
+
+<b>All registered students: </b>
+
+<ul>
+    <li style="display: flex; align-items: center; margin-bottom: 20px;">
+        <span>1 - Demo Name - 23</span>
+        <form method="post">
+            <button style="margin: 5px;" type="submit"><i>Delete</i></button>
+        </form>
+        <form th:action="@{/students/edit}" method="get">
+            <button style="margin: 5px;" type="submit"><i>Edit</i></button>
+        </form>
+    </li>
+</ul>
+
+<a th:href="@{/students/add}">Add a new student</a>
+</body>
+</html>

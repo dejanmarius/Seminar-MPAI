@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MPAI Spring MVC Demo</title>
+</head>
+<body>
+<p>This is the MPAI Spring MVC - add/edit page</p>
+<form method="post">
+    <input type="hidden" name="courseId"/>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="courseTitle">Title</label>
+                <input id="courseTitle" name="title" type="text" value="Demo title"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="courseTrainer">Trainer</label>
+                <input id="courseTrainer" name="trainer" type="text" value="Demo trainer"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="courseDescription">Description</label>
+                <input id="courseDescription" name="description" type="text" value="Demo description"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Save</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

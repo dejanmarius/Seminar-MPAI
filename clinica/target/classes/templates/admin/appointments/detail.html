@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Detalii programare</title></head>
+<body>
+<h1>Admin - Programare #<span th:text="${appointment.id}"></span></h1>
+
+<p>Pacient: <span th:text="${appointment.patientName}"></span></p>
+<p>Email: <span th:text="${appointment.patientEmail}"></span></p>
+<p>Medic: <span th:text="${appointment.doctorName}"></span></p>
+<p>Data si ora: <span th:text="${appointment.appointmentDateTime}"></span></p>
+<p>Motiv: <span th:text="${appointment.reason}"></span></p>
+<p>Stare curenta: <strong th:text="${appointment.status}"></strong></p>
+
+<h3>Schimba starea</h3>
+<form th:action="@{'/admin/appointments/' + ${appointment.id} + '/status'}" method="post">
+    <select name="newStatus">
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+    </select>
+    <button type="submit">Actualizeaza starea</button>
+</form>
+
+<a th:href="@{/admin/appointments}">&#8592; Inapoi la lista</a>
+</body>
+</html>

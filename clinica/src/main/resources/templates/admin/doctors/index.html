@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Catalog medici</title></head>
+<body>
+<h1>Admin - Catalog medici</h1>
+
+<a th:href="@{/admin/doctors/add}">+ Adauga medic</a>
+
+<table border="1">
+    <thead>
+    <tr><th>ID</th><th>Nume</th><th>Specializare</th><th>Actiuni</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${doctors}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.name}"></td>
+        <td th:text="${d.specialization}"></td>
+        <td>
+            <a th:href="@{'/admin/doctors/' + ${d.id} + '/edit'}">Editeaza</a>
+            <form th:action="@{'/admin/doctors/' + ${d.id} + '/delete'}"
+                  method="post" style="display:inline">
+                <button type="submit">Sterge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

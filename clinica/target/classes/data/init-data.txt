@@ -1,0 +1,7 @@
+# Format: patientName,patientEmail,doctorName,zilePanaLaProgramare,reason
+Ion Popescu,ion.popescu@email.com,Dr. Ionescu,3,Consultatie cardiologie
+Maria Ionescu,maria.ionescu@email.com,Dr. Vasile,5,Control de rutina
+Andrei Dumitrescu,andrei.d@email.com,Dr. Georgescu,10,Analize sange
+Elena Constantin,elena.c@email.com,Dr. Ionescu,1,Durere in piept
+Mihai Georgescu,mihai.g@email.com,Dr. Popa,7,Consultatie dermatologie
+Ana Vasilescu,ana.v@email.com,Dr. Vasile,15,Vaccinare

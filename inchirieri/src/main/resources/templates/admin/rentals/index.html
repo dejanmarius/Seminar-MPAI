@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Cereri inchiriere</title></head>
+<body>
+<h1>Admin - Cereri de inchiriere</h1>
+
+<form th:action="@{/admin/rentals}" method="get">
+    <input name="userName" type="text" placeholder="Utilizator..."/>
+    <input name="equipmentName" type="text" placeholder="Echipament..."/>
+    <select name="status">
+        <option value="">-- Toate starile --</option>
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+    </select>
+    <input name="date" type="date"/>
+    <button type="submit">Filtreaza</button>
+    <a th:href="@{/admin/rentals}">Reseteaza</a>
+</form>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>Utilizator</th><th>Echipament</th><th>De la</th>
+        <th>Pana la</th><th>Scop</th><th>Stare</th><th>Actiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r : ${rentals}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.userName}"></td>
+        <td th:text="${r.equipmentName}"></td>
+        <td th:text="${r.startDate}"></td>
+        <td th:text="${r.endDate}"></td>
+        <td th:text="${r.purpose}"></td>
+        <td th:text="${r.status}"></td>
+        <td><a th:href="@{'/admin/rentals/' + ${r.id}}">Detalii / Modifica stare</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

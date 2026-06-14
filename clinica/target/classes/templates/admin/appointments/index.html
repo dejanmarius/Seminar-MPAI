@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Programari</title></head>
+<body>
+<h1>Admin - Programari</h1>
+
+<form th:action="@{/admin/appointments}" method="get">
+    <input name="patientName" type="text" placeholder="Pacient..."/>
+    <input name="doctorName" type="text" placeholder="Medic..."/>
+    <select name="status">
+        <option value="">-- Toate starile --</option>
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+    </select>
+    <input name="date" type="date"/>
+    <button type="submit">Filtreaza</button>
+    <a th:href="@{/admin/appointments}">Reseteaza</a>
+</form>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>Pacient</th><th>Medic</th><th>Data si ora</th>
+        <th>Motiv</th><th>Stare</th><th>Actiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.patientName}"></td>
+        <td th:text="${a.doctorName}"></td>
+        <td th:text="${a.appointmentDateTime}"></td>
+        <td th:text="${a.reason}"></td>
+        <td th:text="${a.status}"></td>
+        <td><a th:href="@{'/admin/appointments/' + ${a.id}}">Detalii / Modifica stare</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

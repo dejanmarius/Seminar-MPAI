@@ -1,0 +1,6 @@
+Ion Popescu,ion.popescu@email.com,Laptop Dell XPS 15
+Maria Ionescu,maria.ionescu@email.com,Mouse wireless Logitech
+Andrei Dumitrescu,andrei.d@email.com,Tastatura mecanica
+Elena Constantin,elena.c@email.com,Monitor 4K 27 inch
+Mihai Georgescu,mihai.g@email.com,Webcam HD 1080p
+Ana Vasilescu,ana.v@email.com,Casti Sony WH-1000XM5

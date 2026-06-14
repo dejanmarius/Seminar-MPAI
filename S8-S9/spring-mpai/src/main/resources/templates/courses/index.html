@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MPAI Spring MVC Demo</title>
+</head>
+<body>
+<p>This is the MPAI Spring MVC - courses page</p>
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Trainer</th>
+        <th>Description</th>
+        <th>Students</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course : ${courses}">
+        <td>
+            <form th:action="@{'courses/'+${course.id}+'/edit'}" method="get">
+                <button type="submit">Edit</button>
+            </form>
+        </td>
+        <td>
+            <form method="post">
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/courses/students/enroll}" method="get">
+                <button type="submit">Enroll student</button>
+            </form>
+        </td>
+        <td th:text="${course.id}">1</td>
+        <td th:text="${course.title}">Demo title</td>
+        <td th:text="${course.trainer}">Demo trainer</td>
+        <td th:text="${course.description}">Demo description</td>
+        <td>
+            <ul>
+                <li  th:each="student : ${course.students}" style="display:flex; align-items: center; margin-bottom: 10px">
+                    <label th:text="${student.name}">Student demo 1</label>
+                    <form  method="post">
+                        <button style="margin: 10px" type="submit"><i>X</i></button>
+                    </form>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/courses/add}"><i>Add a new course</i></a>
+</body>
+</html>

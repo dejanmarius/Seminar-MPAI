@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-mpai
+server:
+  servlet:
+    context-path: /mpai-spring-mvc
+#  port: 8081

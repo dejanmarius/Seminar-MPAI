@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Detalii Comanda</title>
+</head>
+<body>
+    <h1>Admin - Comanda #<span th:text="${order.id}"></span></h1>
+
+    <p>Client: <span th:text="${order.clientName}"></span></p>
+    <p>Email: <span th:text="${order.clientEmail}"></span></p>
+    <p>Data: <span th:text="${order.orderDate}"></span></p>
+    <p>Descriere: <span th:text="${order.description}"></span></p>
+    <p>Stare curenta: <strong th:text="${order.status}"></strong></p>
+
+    <h3>Schimba starea</h3>
+    <form th:action="@{'/admin/orders/' + ${order.id} + '/status'}" method="post">
+        <select name="newStatus">
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}"></option>
+        </select>
+        <button type="submit">Actualizeaza starea</button>
+    </form>
+
+    <a th:href="@{/admin/orders}">&#8592; Inapoi la lista admin</a>
+</body>
+</html>

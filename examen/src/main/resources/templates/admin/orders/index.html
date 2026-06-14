@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Comenzi</title>
+</head>
+<body>
+    <h1>Admin - Lista Comenzi</h1>
+
+    <form th:action="@{/admin/orders}" method="get">
+        <input name="clientName" type="text" placeholder="Cauta dupa nume client..."/>
+        <select name="status">
+            <option value="">-- Toate starile --</option>
+            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+        </select>
+        <input name="orderDate" type="date"/>
+        <button type="submit">Filtreaza</button>
+        <a th:href="@{/admin/orders}">Reseteaza</a>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th><th>Client</th><th>Email</th>
+                <th>Data</th><th>Descriere</th><th>Stare</th><th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.clientName}"></td>
+                <td th:text="${order.clientEmail}"></td>
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.description}"></td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <a th:href="@{'/admin/orders/' + ${order.id}}">Detalii / Modifica stare</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/}">Acasa</a>
+</body>
+</html>

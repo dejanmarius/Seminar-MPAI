@@ -1,0 +1,9 @@
+# Catalog resurse secundare (Doctor / Equipment / Product)
+# Format: name,description,available(true/false)
+# Exemplu S2 (medici):      Dr. Ionescu,Cardiologie,true
+# Exemplu S3 (echipamente): Microscop optic,Laborator biologie,true
+Resursa Unu,Descriere resursa 1,true
+Resursa Doi,Descriere resursa 2,true
+Resursa Trei,Descriere resursa 3,false
+Resursa Patru,Descriere resursa 4,true
+Resursa Cinci,Descriere resursa 5,true

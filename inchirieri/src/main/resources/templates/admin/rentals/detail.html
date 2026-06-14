@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Detalii cerere</title></head>
+<body>
+<h1>Admin - Cerere #<span th:text="${rental.id}"></span></h1>
+
+<p>Utilizator: <span th:text="${rental.userName}"></span></p>
+<p>Email: <span th:text="${rental.userEmail}"></span></p>
+<p>Echipament: <span th:text="${rental.equipmentName}"></span></p>
+<p>Perioada: <span th:text="${rental.startDate}"></span> - <span th:text="${rental.endDate}"></span></p>
+<p>Scop: <span th:text="${rental.purpose}"></span></p>
+<p>Stare curenta: <strong th:text="${rental.status}"></strong></p>
+
+<h3>Schimba starea</h3>
+<form th:action="@{'/admin/rentals/' + ${rental.id} + '/status'}" method="post">
+    <select name="newStatus">
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+    </select>
+    <button type="submit">Actualizeaza starea</button>
+</form>
+
+<a th:href="@{/admin/rentals}">&#8592; Inapoi la lista</a>
+</body>
+</html>

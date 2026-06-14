@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Comandă nouă</title></head>
+<body>
+<h1>Plasează comandă</h1>
+<form th:action="@{/orders/save}" method="post">
+    <div>
+        <label>Nume client:</label>
+        <input name="clientName" type="text" required/>
+    </div>
+    <div>
+        <label>Email:</label>
+        <input name="clientEmail" type="email" required/>
+    </div>
+    <div>
+        <label>Descriere:</label>
+        <input name="description" type="text" required/>
+    </div>
+    <button type="submit">Plasează</button>
+</form>
+<a th:href="@{/orders}">← Înapoi</a>
+</body>
+</html>

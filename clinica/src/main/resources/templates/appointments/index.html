@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Programarile mele</title></head>
+<body>
+<h1>Programari</h1>
+
+<form th:action="@{/appointments}" method="get">
+    <input name="patientName" type="text" placeholder="Cauta dupa nume pacient..."/>
+    <button type="submit">Cauta</button>
+</form>
+
+<a th:href="@{/appointments/add}">+ Programare noua</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>Pacient</th><th>Email</th><th>Medic</th>
+        <th>Data si ora</th><th>Motiv</th><th>Stare</th><th>Actiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.patientName}"></td>
+        <td th:text="${a.patientEmail}"></td>
+        <td th:text="${a.doctorName}"></td>
+        <td th:text="${a.appointmentDateTime}"></td>
+        <td th:text="${a.reason}"></td>
+        <td th:text="${a.status}"></td>
+        <td>
+            <!-- Anulare doar daca pacientul are voie (stare + minim X ore inainte) -->
+            <form th:if="${a.cancellable}"
+                  th:action="@{'/appointments/' + ${a.id} + '/cancel'}" method="post">
+                <button type="submit">Anuleaza</button>
+            </form>
+            <span th:unless="${a.cancellable}">-</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

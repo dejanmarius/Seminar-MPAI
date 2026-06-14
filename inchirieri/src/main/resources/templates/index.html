@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inchirieri echipamente</title>
+</head>
+<body>
+    <h1>Inchirieri echipamente</h1>
+
+    <div>
+        <h2>Utilizator</h2>
+        <p>Cere un echipament si urmareste starea cererii.</p>
+        <a th:href="@{/rentals}"><button>Mergi la interfata utilizator</button></a>
+    </div>
+
+    <hr/>
+
+    <div>
+        <h2>Administrator</h2>
+        <p>Gestioneaza cererile si catalogul de echipamente.</p>
+        <a th:href="@{/admin/rentals}"><button>Cereri de inchiriere</button></a>
+        <a th:href="@{/admin/equipments}"><button>Catalog echipamente</button></a>
+    </div>
+</body>
+</html>

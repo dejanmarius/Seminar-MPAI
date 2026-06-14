@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Detalii</title><!-- TODO: rename -->
+</head>
+<body>
+    <h1>Admin - Detalii #<span th:text="${item.id}"></span></h1><!-- TODO: rename -->
+
+    <p>Nume: <span th:text="${item.ownerName}"></span></p><!-- TODO: rename -->
+    <p>Email: <span th:text="${item.ownerEmail}"></span></p><!-- TODO: rename -->
+    <p>Data: <span th:text="${item.date}"></span></p><!-- TODO: rename -->
+    <p>Descriere: <span th:text="${item.description}"></span></p><!-- TODO: rename -->
+    <p>Stare curenta: <strong th:text="${item.status}"></strong></p>
+
+    <!-- Admin poate schimba la orice stare din dropdown -->
+    <h3>Schimba starea</h3>
+    <form th:action="@{'/admin/items/' + ${item.id} + '/status'}" method="post"><!-- TODO: rename /items -->
+        <select name="newStatus">
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}"></option>
+        </select>
+        <button type="submit">Actualizeaza starea</button>
+    </form>
+
+    <a th:href="@{/admin/items}">&#8592; Inapoi la lista admin</a><!-- TODO: rename -->
+</body>
+</html>

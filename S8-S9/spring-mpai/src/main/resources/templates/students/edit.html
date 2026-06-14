@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MPAI Spring MVC Demo</title>
+</head>
+<body>
+<p>This is MPAI Spring MVC Demo Student Insert/Edit page</p>
+
+<form method="post">
+    <input type="hidden" name="studentId"/>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="studentName">Name</label>
+                <input id="studentName" name="name" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="studentAge">Age</label>
+                <input id="studentAge" name="age" type="number"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Save"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

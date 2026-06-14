@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${itemId == null ? 'Adaugare' : 'Modificare'} + ' Inregistrare'">Formular</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px;}
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold;}
+        input[type="text"], input[type="date"], select { width: 100%; padding: 8px; box-sizing: border-box; }
+        .btn { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px;}
+        .btn-cancel { background-color: #f44336; text-decoration: none; display: inline-block; text-align: center;}
+    </style>
+</head>
+<body>
+    <h1 th:text="${itemId == null ? 'Adauga Inregistrare' : 'Modifica Inregistrare'}"></h1>
+
+    <!-- Formularul trimite catre /items/save. Daca itemId exista (suntem pe edit), il trimitem ca parametru -->
+    <form th:action="@{/items/save}" th:object="${item}" method="post">
+        
+        <!-- Input ascuns pentru ID, daca exista (modificare) -->
+        <input type="hidden" name="itemId" th:value="${itemId}" th:if="${itemId != null}" />
+
+        <div class="form-group">
+            <label for="subItemId">SubItem (ex: Medic, Echipament, Client)</label>
+            <select id="subItemId" th:field="*{subItemId}" required>
+                <option value="" disabled="disabled" selected="selected">-- Selecteaza --</option>
+                <option th:each="sub : ${subItems}" 
+                        th:value="${sub.id}" 
+                        th:text="${sub.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descriere (ex: Motiv, Scop)</label>
+            <input type="text" id="description" th:field="*{description}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="date">Data</label>
+            <input type="date" id="date" th:field="*{date}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="state">Stare</label>
+            <select id="state" th:field="*{state}" required>
+                <!-- Daca ai validari de stare, le poti implementa in controller, in view afisam toate starile -->
+                <option th:each="st : ${states}" 
+                        th:value="${st}" 
+                        th:text="${st}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn">Salveaza</button>
+            <a href="/items" class="btn btn-cancel">Renunta</a>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Catalog echipamente</title></head>
+<body>
+<h1>Admin - Catalog echipamente</h1>
+
+<a th:href="@{/admin/equipments/add}">+ Adauga echipament</a>
+
+<table border="1">
+    <thead>
+    <tr><th>ID</th><th>Nume</th><th>Descriere</th><th>Disponibil</th><th>Actiuni</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="e : ${equipments}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.name}"></td>
+        <td th:text="${e.description}"></td>
+        <td th:text="${e.available} ? 'Da' : 'Nu'"></td>
+        <td>
+            <a th:href="@{'/admin/equipments/' + ${e.id} + '/edit'}">Editeaza</a>
+            <form th:action="@{'/admin/equipments/' + ${e.id} + '/delete'}"
+                  method="post" style="display:inline">
+                <button type="submit">Sterge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

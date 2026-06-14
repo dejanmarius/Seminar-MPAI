@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Resursa</title><!-- TODO: rename -->
+</head>
+<body>
+    <!-- Acelasi form pentru adaugare si editare; difera doar action-ul -->
+    <h1 th:text="${editing} ? 'Editeaza resursa' : 'Adauga resursa'"></h1>
+
+    <!-- La editare trimite la /update/{id}, la adaugare la /save -->
+    <form th:action="${editing}
+                ? @{'/admin/resources/' + ${resource.id} + '/update'}
+                : @{/admin/resources/save}"
+          method="post">
+
+        <div>
+            <label>Nume:</label>
+            <input name="name" type="text" th:value="${resource.name}" required/>
+        </div>
+        <div>
+            <label>Descriere:</label>
+            <input name="description" type="text" th:value="${resource.description}"/>
+        </div>
+        <div>
+            <label>Disponibil:</label>
+            <!-- checkbox: trimite "true" daca e bifat -->
+            <input name="available" type="checkbox" value="true" th:checked="${resource.available}"/>
+        </div>
+
+        <button type="submit">Salveaza</button>
+    </form>
+
+    <a th:href="@{/admin/resources}">&#8592; Inapoi la catalog</a>
+</body>
+</html>

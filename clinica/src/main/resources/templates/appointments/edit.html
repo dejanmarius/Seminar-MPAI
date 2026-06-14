@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Programare noua</title></head>
+<body>
+<h1>Fa o programare</h1>
+<form th:action="@{/appointments/save}" method="post">
+    <div>
+        <label>Nume pacient:</label>
+        <input name="patientName" type="text" required/>
+    </div>
+    <div>
+        <label>Email:</label>
+        <input name="patientEmail" type="email" required/>
+    </div>
+    <div>
+        <label>Medic:</label>
+        <select name="doctorName" required>
+            <option th:each="d : ${doctors}"
+                    th:value="${d.name}"
+                    th:text="${d.name + ' (' + d.specialization + ')'}"></option>
+        </select>
+    </div>
+    <div>
+        <label>Data si ora:</label>
+        <input name="appointmentDateTime" type="datetime-local" required/>
+    </div>
+    <div>
+        <label>Motiv:</label>
+        <input name="reason" type="text" required/>
+    </div>
+    <button type="submit">Solicita programarea</button>
+</form>
+<a th:href="@{/appointments}">&#8592; Inapoi</a>
+</body>
+</html>

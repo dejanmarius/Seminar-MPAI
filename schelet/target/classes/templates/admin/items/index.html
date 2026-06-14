@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Lista</title><!-- TODO: rename -->
+</head>
+<body>
+    <h1>Admin - Lista inregistrari</h1><!-- TODO: rename -->
+
+    <!-- Filtrare avansata -->
+    <form th:action="@{/admin/items}" method="get"><!-- TODO: rename /items -->
+        <input name="ownerName" type="text" placeholder="Cauta dupa nume..."/><!-- TODO: rename -->
+        <select name="status">
+            <option value="">-- Toate starile --</option>
+            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+        </select>
+        <input name="date" type="date"/><!-- filtrare dupa data -->
+        <button type="submit">Filtreaza</button>
+        <a th:href="@{/admin/items}">Reseteaza</a><!-- TODO: rename -->
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume</th><!-- TODO: rename -->
+                <th>Email</th>
+                <th>Data</th><!-- TODO: rename -->
+                <th>Descriere</th><!-- TODO: rename -->
+                <th>Stare</th>
+                <th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}"><!-- TODO: rename variabila -->
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.ownerName}"></td><!-- TODO: rename camp -->
+                <td th:text="${item.ownerEmail}"></td><!-- TODO: rename camp -->
+                <td th:text="${item.date}"></td><!-- TODO: rename camp -->
+                <td th:text="${item.description}"></td><!-- TODO: rename camp -->
+                <td th:text="${item.status}"></td>
+                <td>
+                    <a th:href="@{'/admin/items/' + ${item.id}}">Detalii / Modifica stare</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/}">Acasa</a>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Aplicatie</title><!-- TODO: rename titlul -->
+</head>
+<body>
+    <h1>Pagina principala</h1><!-- TODO: rename -->
+
+    <div>
+        <h2>Utilizator</h2>
+        <p>Gestioneaza inregistrarile tale.</p>
+        <!-- TODO: rename /items -> /orders / /appointments / /rentals -->
+        <a th:href="@{/items}">
+            <button>Mergi la interfata utilizator</button>
+        </a>
+    </div>
+
+    <hr/>
+
+    <div>
+        <h2>Administrator</h2>
+        <p>Vizualizeaza si gestioneaza toate inregistrarile.</p>
+        <!-- TODO: rename /admin/items -> /admin/orders etc. -->
+        <a th:href="@{/admin/items}">
+            <button>Mergi la interfata admin</button>
+        </a>
+        <!-- Catalog resurse secundare (Doctor / Equipment / Product).
+             Sterge acest buton daca subiectul nu are entitate secundara. -->
+        <a th:href="@{/admin/resources}">
+            <button>Gestioneaza catalogul de resurse</button>
+        </a>
+    </div>
+</body>
+</html>

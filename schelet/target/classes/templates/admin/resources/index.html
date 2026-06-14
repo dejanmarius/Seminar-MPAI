@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Catalog resurse</title><!-- TODO: rename (Medici / Echipamente) -->
+</head>
+<body>
+    <h1>Admin - Catalog resurse</h1><!-- TODO: rename -->
+
+    <a th:href="@{/admin/resources/add}">+ Adauga resursa</a><!-- TODO: rename -->
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume</th>
+                <th>Descriere</th>
+                <th>Disponibil</th>
+                <th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="resource : ${resources}">
+                <td th:text="${resource.id}"></td>
+                <td th:text="${resource.name}"></td>
+                <td th:text="${resource.description}"></td>
+                <td th:text="${resource.available} ? 'Da' : 'Nu'"></td>
+                <td>
+                    <a th:href="@{'/admin/resources/' + ${resource.id} + '/edit'}">Editeaza</a>
+                    <form th:action="@{'/admin/resources/' + ${resource.id} + '/delete'}"
+                          method="post" style="display:inline">
+                        <button type="submit">Sterge</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/}">Acasa</a>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Cererile mele</title></head>
+<body>
+<h1>Cereri de inchiriere</h1>
+
+<form th:action="@{/rentals}" method="get">
+    <input name="userName" type="text" placeholder="Cauta dupa nume utilizator..."/>
+    <button type="submit">Cauta</button>
+</form>
+
+<a th:href="@{/rentals/add}">+ Cerere noua</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>Utilizator</th><th>Email</th><th>Echipament</th>
+        <th>De la</th><th>Pana la</th><th>Scop</th><th>Stare</th><th>Actiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r : ${rentals}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.userName}"></td>
+        <td th:text="${r.userEmail}"></td>
+        <td th:text="${r.equipmentName}"></td>
+        <td th:text="${r.startDate}"></td>
+        <td th:text="${r.endDate}"></td>
+        <td th:text="${r.purpose}"></td>
+        <td th:text="${r.status}"></td>
+        <td>
+            <!-- Anulare doar inainte de aprobare (stare CERUTA) -->
+            <form th:if="${r.cancellable}"
+                  th:action="@{'/rentals/' + ${r.id} + '/cancel'}" method="post">
+                <button type="submit">Anuleaza</button>
+            </form>
+            <span th:unless="${r.cancellable}">-</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">Acasa</a>
+</body>
+</html>

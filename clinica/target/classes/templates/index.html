@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Clinica</title>
+</head>
+<body>
+    <h1>Clinica - Programari</h1>
+
+    <div>
+        <h2>Pacient</h2>
+        <p>Fa o programare si urmareste starea ei.</p>
+        <a th:href="@{/appointments}"><button>Mergi la interfata pacient</button></a>
+    </div>
+
+    <hr/>
+
+    <div>
+        <h2>Administrator / Receptie</h2>
+        <p>Vizualizeaza si gestioneaza toate programarile.</p>
+        <a th:href="@{/admin/appointments}"><button>Programari</button></a>
+        <a th:href="@{/admin/doctors}"><button>Catalog medici</button></a>
+    </div>
+</body>
+</html>

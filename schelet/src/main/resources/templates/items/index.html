@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista</title><!-- TODO: rename -->
+</head>
+<body>
+    <h1>Lista inregistrari</h1><!-- TODO: rename -->
+
+    <!-- Cautare dupa email utilizator -->
+    <form th:action="@{/items}" method="get"><!-- TODO: rename /items -->
+        <input name="ownerName" type="text" placeholder="Cauta dupa email..."/><!-- TODO: rename -->
+        <button type="submit">Cauta</button>
+    </form>
+
+    <a th:href="@{/items/add}">+ Adauga nou</a><!-- TODO: rename /items -->
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume</th><!-- TODO: rename -->
+                <th>Email</th>
+                <th>Data</th><!-- TODO: rename -->
+                <th>Descriere</th><!-- TODO: rename -->
+                <th>Stare</th>
+                <th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}"><!-- TODO: rename variabila -->
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.ownerName}"></td><!-- TODO: rename -->
+                <td th:text="${item.ownerEmail}"></td><!-- TODO: rename -->
+                <td th:text="${item.date}"></td><!-- TODO: rename -->
+                <td th:text="${item.description}"></td><!-- TODO: rename -->
+                <td th:text="${item.status}"></td>
+                <td>
+                    <!-- Clientul poate anula doar din starea initiala -->
+                    <!-- TODO: inlocuieste 'STARE_INITIALA' cu prima stare reala -->
+                    <form th:if="${item.status == 'STARE_INITIALA'}"
+                          th:action="@{'/items/' + ${item.id} + '/cancel'}"
+                          method="post">
+                        <button type="submit">Anuleaza</button>
+                    </form>
+                    <span th:if="${item.status != 'STARE_INITIALA'}">-</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/}">Acasa</a>
+</body>
+</html>

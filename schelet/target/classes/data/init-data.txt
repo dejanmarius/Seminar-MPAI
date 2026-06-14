@@ -1,0 +1,11 @@
+# TODO: adapteaza formatul la subiectul tau
+# Format: ownerName,ownerEmail,description
+# Exemplu S1 (comenzi):    Ion Popescu,ion@email.com,Laptop Dell XPS
+# Exemplu S2 (programari): Ion Popescu,ion@email.com,Consultatie generala
+# Exemplu S3 (inchirieri): Ion Popescu,ion@email.com,Laborator chimie
+Nume Unu,user1@email.com,Descriere intrare 1
+Nume Doi,user2@email.com,Descriere intrare 2
+Nume Trei,user3@email.com,Descriere intrare 3
+Nume Patru,user4@email.com,Descriere intrare 4
+Nume Cinci,user5@email.com,Descriere intrare 5
+Nume Sase,user6@email.com,Descriere intrare 6
