@@ -1,0 +1,7 @@
+# Format: patientName,patientEmail,doctorName,appointmentDateTime,reason
+Ion Popescu,ion.popescu@email.com,Dr. Ionescu,2026-06-10T10:00,Consultatie cardiologie
+Maria Ionescu,maria.ionescu@email.com,Dr. Vasile,2026-06-12T14:00,Control de rutina
+Andrei Dumitrescu,andrei.d@email.com,Dr. Georgescu,2026-06-20T09:00,Analize sange
+Elena Constantin,elena.c@email.com,Dr. Ionescu,2026-06-25T11:00,Durere in piept
+Mihai Georgescu,mihai.g@email.com,Dr. Popa,2026-07-01T10:00,Consultatie dermatologie
+Ana Vasilescu,ana.v@email.com,Dr. Vasile,2026-07-10T15:00,Vaccinare
