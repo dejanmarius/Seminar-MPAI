@@ -18,7 +18,7 @@ public interface RentalRequestRepository extends JpaRepository<RentalRequest, Lo
     @Query("SELECT o FROM RentalRequest o WHERE " +
            "(:status IS NULL OR o.status = :status) AND " +
            "(:userName IS NULL OR LOWER(o.userName) LIKE LOWER(CONCAT('%', :userName, '%'))) AND " +
-           "(:equipmentName IS NULL OR LOWER(o.equipmentName) LIKE LOWER(CONCAT('%', :equipmentName, '%'))) AND " +
+           "(:equipmentName IS NULL OR LOWER(o.equipment.name) LIKE LOWER(CONCAT('%', :equipmentName, '%'))) AND " +
            "(:date IS NULL OR (o.startDate <= :date AND o.endDate >= :date))")
     List<RentalRequest> findByFilters(@Param("status") RentalStatus status,
                                       @Param("userName") String userName,

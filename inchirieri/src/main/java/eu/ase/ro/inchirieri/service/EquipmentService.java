@@ -56,6 +56,11 @@ public class EquipmentService {
                 .orElseThrow(() -> new RuntimeException("Echipamentul nu a fost gasit: " + id));
     }
 
+    public Equipment getEntityById(Long id) {
+        return equipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Echipamentul nu a fost gasit: " + id));
+    }
+
     public void create(EquipmentRequest request) {
         equipmentRepository.save(new Equipment(request.getName(),
                 request.getDescription(), request.isAvailable()));

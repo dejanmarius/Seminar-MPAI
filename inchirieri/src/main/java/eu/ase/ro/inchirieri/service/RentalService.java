@@ -1,8 +1,8 @@
 package eu.ase.ro.inchirieri.service;
 
 import eu.ase.ro.inchirieri.dto.request.RentalRequestDto;
-import eu.ase.ro.inchirieri.dto.response.EquipmentResponse;
 import eu.ase.ro.inchirieri.dto.response.RentalResponse;
+import eu.ase.ro.inchirieri.model.Equipment;
 import eu.ase.ro.inchirieri.model.RentalRequest;
 import eu.ase.ro.inchirieri.model.RentalStatus;
 import eu.ase.ro.inchirieri.repository.RentalRequestRepository;
@@ -16,13 +16,6 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Logica cererilor de inchiriere: populare initiala, filtrare, creare,
- * schimbare de stare (cu validarea tranzitiilor) si anulare de catre utilizator.
- * La aprobare echipamentul devine indisponibil; la returnare/respingere revine disponibil.
- *
- * {@code @DependsOn} garanteaza ca echipamentele sunt populate inainte de cereri.
- */
 @Service
 @DependsOn("equipmentService")
 public class RentalService {
@@ -51,13 +44,13 @@ public class RentalService {
                 if (line.isBlank() || line.startsWith("#")) {
                     continue;
                 }
-                // format: userName,userEmail,equipmentId,equipmentName,zileStart,zileDurata,purpose
+                // format: userName,userEmail,equipmentId,zileStart,zileDurata,purpose
                 String[] parts = line.split(",");
-                LocalDate start = LocalDate.now().plusDays(Long.parseLong(parts[4].trim()));
-                LocalDate end = start.plusDays(Long.parseLong(parts[5].trim()));
-                RentalRequest request = new RentalRequest(parts[0].trim(), parts[1].trim(),
-                        Long.parseLong(parts[2].trim()), parts[3].trim(), start, end, parts[6].trim());
-                rentalRepository.save(request);
+                Equipment equipment = equipmentService.getEntityById(Long.parseLong(parts[2].trim()));
+                LocalDate start = LocalDate.now().plusDays(Long.parseLong(parts[3].trim()));
+                LocalDate end = start.plusDays(Long.parseLong(parts[4].trim()));
+                rentalRepository.save(new RentalRequest(parts[0].trim(), parts[1].trim(),
+                        equipment, start, end, parts[5].trim()));
             }
         } catch (Exception e) {
             System.err.println("Eroare la initializarea datelor: " + e.getMessage());
@@ -82,16 +75,15 @@ public class RentalService {
                 .orElseThrow(() -> new RuntimeException("Cererea nu a fost gasita: " + id));
     }
 
-    /** Lista echipamentelor disponibile pentru formularul de cerere noua. */
-    public List<EquipmentResponse> getAvailableEquipments() {
+    public List<eu.ase.ro.inchirieri.dto.response.EquipmentResponse> getAvailableEquipments() {
         return equipmentService.getAvailable();
     }
 
     public void create(RentalRequestDto dto) {
-        EquipmentResponse equipment = equipmentService.findById(dto.getEquipmentId());
+        Equipment equipment = equipmentService.getEntityById(dto.getEquipmentId());
         RentalRequest request = new RentalRequest(
                 dto.getUserName(), dto.getUserEmail(),
-                equipment.getId(), equipment.getName(),
+                equipment,
                 LocalDate.parse(dto.getStartDate()), LocalDate.parse(dto.getEndDate()),
                 dto.getPurpose());
         rentalRepository.save(request);
@@ -99,7 +91,6 @@ public class RentalService {
                 "Cererea ta de inchiriere pentru '" + equipment.getName() + "' a fost inregistrata.");
     }
 
-    /** Schimbare de stare de catre admin (aproba/respinge/preia/returneaza). */
     public void updateStatus(Long id, String newStatusStr) {
         RentalRequest request = rentalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cererea nu a fost gasita: " + id));
@@ -116,7 +107,6 @@ public class RentalService {
                 "Starea cererii tale a fost actualizata: " + newStatus.name());
     }
 
-    /** Anulare de catre utilizator: doar inainte de aprobare (stare CERUTA). */
     public void cancelByUser(Long id) {
         RentalRequest request = rentalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cererea nu a fost gasita: " + id));
@@ -130,25 +120,22 @@ public class RentalService {
         notificationService.send(request.getUserEmail(), "Cererea ta a fost anulata.");
     }
 
-    /**
-     * Actualizeaza disponibilitatea echipamentului la tranzitii:
-     *  - APROBATA  -> echipamentul devine indisponibil (rezervat)
-     *  - RETURNATA / RESPINSA -> echipamentul revine disponibil
-     */
     private void applyAvailabilityChange(RentalRequest request, RentalStatus newStatus) {
+        Long equipmentId = request.getEquipment() != null ? request.getEquipment().getId() : null;
         switch (newStatus) {
-            case APROBATA -> equipmentService.setAvailability(request.getEquipmentId(), false);
-            case RETURNATA, RESPINSA -> equipmentService.setAvailability(request.getEquipmentId(), true);
-            default -> { /* celelalte tranzitii nu schimba disponibilitatea */ }
+            case APROBATA -> equipmentService.setAvailability(equipmentId, false);
+            case RETURNATA, RESPINSA -> equipmentService.setAvailability(equipmentId, true);
+            default -> {}
         }
     }
 
     private RentalResponse toResponse(RentalRequest request) {
+        Equipment equipment = request.getEquipment();
         return new RentalResponse(
                 request.getId(),
                 request.getUserName(),
                 request.getUserEmail(),
-                request.getEquipmentName(),
+                equipment != null ? equipment.getName() : null,
                 request.getStartDate(),
                 request.getEndDate(),
                 request.getPurpose(),
