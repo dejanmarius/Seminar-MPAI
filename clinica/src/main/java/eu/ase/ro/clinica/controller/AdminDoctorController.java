@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/** CRUD complet pentru catalogul de medici (doar admin). */
+// CRUD complet pentru catalogul de medici — doar admin.
+// Acelasi template edit.html e folosit atat pentru adaugare cat si pentru editare
+// (diferentiat prin flag-ul "editing" trimis in model).
 @Controller
 @RequestMapping("/admin/doctors")
 public class AdminDoctorController {
@@ -21,12 +23,15 @@ public class AdminDoctorController {
         this.doctorService = doctorService;
     }
 
+    // GET /admin/doctors — lista tuturor medicilor din catalog
     @GetMapping
     public String list(Model model) {
         model.addAttribute("doctors", doctorService.getAll());
         return "admin/doctors/index";
     }
 
+    // GET /admin/doctors/add — formular adaugare medic nou
+    // editing=false -> template-ul afiseaza titlul "Adauga" si action spre /save
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("doctor", new DoctorRequest());
@@ -34,25 +39,32 @@ public class AdminDoctorController {
         return "admin/doctors/edit";
     }
 
+    // POST /admin/doctors/save — salveaza medicul nou
     @PostMapping("/save")
     public String save(@ModelAttribute DoctorRequest request) {
         doctorService.create(request);
         return "redirect:/admin/doctors";
     }
 
+    // GET /admin/doctors/{id}/edit — formular editare medic existent
+    // editing=true -> template-ul afiseaza titlul "Editeaza" si action spre /{id}/update
+    // trimitem DoctorResponse (nu entitatea) — campurile sunt prepopulate prin th:value
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("doctor", doctorService.findById(id));
         model.addAttribute("editing", true);
-        return "admin/doctors/edit";
+        return "admin/doctors/edit"; // acelasi template ca la adaugare
     }
 
+    // POST /admin/doctors/{id}/update — salveaza modificarile
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id, @ModelAttribute DoctorRequest request) {
         doctorService.update(id, request);
         return "redirect:/admin/doctors";
     }
 
+    // POST /admin/doctors/{id}/delete — sterge medicul din catalog
+    // folosim POST (nu DELETE) pentru ca formularele HTML suporta doar GET si POST
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
         doctorService.delete(id);

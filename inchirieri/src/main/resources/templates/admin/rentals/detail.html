@@ -4,6 +4,7 @@
 <body>
 <h1>Admin - Cerere #<span th:text="${rental.id}"></span></h1>
 
+<!-- afisam datele din RentalResponse (DTO, nu entitatea) -->
 <p>Utilizator: <span th:text="${rental.userName}"></span></p>
 <p>Email: <span th:text="${rental.userEmail}"></span></p>
 <p>Echipament: <span th:text="${rental.equipmentName}"></span></p>
@@ -12,7 +13,10 @@
 <p>Stare curenta: <strong th:text="${rental.status}"></strong></p>
 
 <h3>Schimba starea</h3>
+<!-- action construit dinamic cu ID-ul cererii curente -->
 <form th:action="@{'/admin/rentals/' + ${rental.id} + '/status'}" method="post">
+    <!-- dropdown cu toate starile — service-ul valideaza daca tranzitia e permisa -->
+    <!-- la APROBATA echipamentul devine indisponibil; la RETURNATA/RESPINSA revine disponibil -->
     <select name="newStatus">
         <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
     </select>

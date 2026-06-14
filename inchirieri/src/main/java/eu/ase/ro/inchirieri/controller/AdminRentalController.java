@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Interfata admin: vede toate cererile, filtreaza dupa stare/utilizator/echipament/data,
- * aproba/respinge, marcheaza ca preluata/returnata (cu efect pe disponibilitate).
- */
+// Interfata admin: vede toate cererile, filtreaza si schimba stari.
+// La APROBATA echipamentul devine indisponibil; la RETURNATA/RESPINSA revine disponibil.
 @Controller
 @RequestMapping("/admin/rentals")
 public class AdminRentalController {
@@ -24,6 +22,8 @@ public class AdminRentalController {
         this.rentalService = rentalService;
     }
 
+    // GET /admin/rentals — lista cu toate cererile, toate filtrele optionale
+    // parametrii cu required=false sunt null daca nu sunt trimisi din form
     @GetMapping
     public String list(@RequestParam(required = false) String status,
                        @RequestParam(required = false) String userName,
@@ -32,10 +32,12 @@ public class AdminRentalController {
                        Model model) {
         model.addAttribute("rentals",
                 rentalService.filter(status, userName, equipmentName, date));
+        // trimitem toate valorile enum-ului pentru dropdown-ul de filtrare dupa stare
         model.addAttribute("statuses", RentalStatus.values());
         return "admin/rentals/index";
     }
 
+    // GET /admin/rentals/{id} — detalii cerere + form schimbare stare
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
         model.addAttribute("rental", rentalService.findById(id));
@@ -43,6 +45,8 @@ public class AdminRentalController {
         return "admin/rentals/detail";
     }
 
+    // POST /admin/rentals/{id}/status — schimba starea
+    // service-ul valideaza tranzitia si actualizeaza disponibilitatea echipamentului
     @PostMapping("/{id}/status")
     public String changeStatus(@PathVariable Long id, @RequestParam String newStatus) {
         rentalService.updateStatus(id, newStatus);

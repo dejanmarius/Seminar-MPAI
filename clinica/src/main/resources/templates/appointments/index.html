@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Programarile mele</title></head>
+<head>
+<title>Programarile mele</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Programari</h1>
 
+<!-- Filtru dupa numele pacientului — trimite GET cu parametrul patientName -->
 <form th:action="@{/appointments}" method="get">
     <input name="patientName" type="text" placeholder="Cauta dupa nume pacient..."/>
     <button type="submit">Cauta</button>
 </form>
 
+<!-- @{} genereaza URL-ul corect tinand cont de context-path din application.yaml -->
 <a th:href="@{/appointments/add}">+ Programare noua</a>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th><th>Pacient</th><th>Email</th><th>Medic</th>
@@ -19,7 +24,9 @@
     </tr>
     </thead>
     <tbody>
+    <!-- th:each itereaza lista "appointments" din model, variabila curenta e "a" -->
     <tr th:each="a : ${appointments}">
+        <!-- th:text seteaza textul elementului cu valoarea din DTO -->
         <td th:text="${a.id}"></td>
         <td th:text="${a.patientName}"></td>
         <td th:text="${a.patientEmail}"></td>
@@ -28,11 +35,13 @@
         <td th:text="${a.reason}"></td>
         <td th:text="${a.status}"></td>
         <td>
-            <!-- Anulare doar daca pacientul are voie (stare + minim X ore inainte) -->
+            <!-- th:if afiseaza butonul doar daca campul cancellable din DTO e true -->
+            <!-- cancellable e calculat in service: stare anulabila SI minim 24h inainte -->
             <form th:if="${a.cancellable}"
                   th:action="@{'/appointments/' + ${a.id} + '/cancel'}" method="post">
                 <button type="submit">Anuleaza</button>
             </form>
+            <!-- th:unless e opusul lui th:if — afiseaza "-" cand NU se poate anula -->
             <span th:unless="${a.cancellable}">-</span>
         </td>
     </tr>

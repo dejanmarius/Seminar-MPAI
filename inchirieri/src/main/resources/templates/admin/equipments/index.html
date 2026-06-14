@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin - Catalog echipamente</title></head>
+<head>
+<title>Admin - Catalog echipamente</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Admin - Catalog echipamente</h1>
 
 <a th:href="@{/admin/equipments/add}">+ Adauga echipament</a>
 
-<table border="1">
+<table>
     <thead>
     <tr><th>ID</th><th>Nume</th><th>Descriere</th><th>Disponibil</th><th>Actiuni</th></tr>
     </thead>
@@ -15,9 +18,11 @@
         <td th:text="${e.id}"></td>
         <td th:text="${e.name}"></td>
         <td th:text="${e.description}"></td>
+        <!-- expresie conditionala Thymeleaf: afiseaza "Da" sau "Nu" in loc de true/false -->
         <td th:text="${e.available} ? 'Da' : 'Nu'"></td>
         <td>
             <a th:href="@{'/admin/equipments/' + ${e.id} + '/edit'}">Editeaza</a>
+            <!-- DELETE prin POST: HTML nu suporta metoda DELETE in form-uri -->
             <form th:action="@{'/admin/equipments/' + ${e.id} + '/delete'}"
                   method="post" style="display:inline">
                 <button type="submit">Sterge</button>

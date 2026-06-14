@@ -2,14 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Admin - Medic</title></head>
 <body>
+<!-- titlul se schimba dinamic in functie de flagul "editing" trimis din controller -->
 <h1 th:text="${editing} ? 'Editeaza medic' : 'Adauga medic'"></h1>
 
+<!-- acelasi template pentru adaugare si editare -->
+<!-- action se schimba: la editare merge la /{id}/update, la adaugare la /save -->
 <form th:action="${editing}
             ? @{'/admin/doctors/' + ${doctor.id} + '/update'}
             : @{/admin/doctors/save}"
       method="post">
     <div>
         <label>Nume:</label>
+        <!-- th:value prepopuleaza campul cu valoarea existenta la editare -->
+        <!-- la adaugare "doctor" e un DoctorRequest gol, deci th:value e null/gol -->
         <input name="name" type="text" th:value="${doctor.name}" required/>
     </div>
     <div>

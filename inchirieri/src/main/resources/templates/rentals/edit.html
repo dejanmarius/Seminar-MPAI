@@ -3,9 +3,11 @@
 <head><title>Cerere noua</title></head>
 <body>
 <h1>Cerere de inchiriere</h1>
+
 <form th:action="@{/rentals/save}" method="post">
     <div>
         <label>Nume utilizator:</label>
+        <!-- name="userName" trebuie sa corespunda cu campul din RentalRequestDto -->
         <input name="userName" type="text" required/>
     </div>
     <div>
@@ -14,6 +16,8 @@
     </div>
     <div>
         <label>Echipament:</label>
+        <!-- dropdown populat din lista "equipments" (doar cele disponibile) -->
+        <!-- th:value="${e.id}" trimite ID-ul echipamentului, service face getEntityById -->
         <select name="equipmentId" required>
             <option th:each="e : ${equipments}"
                     th:value="${e.id}"
@@ -22,6 +26,7 @@
     </div>
     <div>
         <label>De la:</label>
+        <!-- type="date" trimite format "yyyy-MM-dd", parsat cu LocalDate.parse() -->
         <input name="startDate" type="date" required/>
     </div>
     <div>

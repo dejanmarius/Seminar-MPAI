@@ -3,9 +3,12 @@
 <head><title>Programare noua</title></head>
 <body>
 <h1>Fa o programare</h1>
+
+<!-- action trimite POST la /appointments/save -->
 <form th:action="@{/appointments/save}" method="post">
     <div>
         <label>Nume pacient:</label>
+        <!-- name="patientName" trebuie sa corespunda cu campul din AppointmentRequest -->
         <input name="patientName" type="text" required/>
     </div>
     <div>
@@ -14,6 +17,9 @@
     </div>
     <div>
         <label>Medic:</label>
+        <!-- dropdown populat din lista "doctors" trimisa de controller -->
+        <!-- th:value="${d.id}" trimite ID-ul medicului, nu numele -->
+        <!-- service-ul face getEntityById(doctorId) ca sa obtina entitatea Doctor -->
         <select name="doctorId" required>
             <option th:each="d : ${doctors}"
                     th:value="${d.id}"
@@ -22,6 +28,7 @@
     </div>
     <div>
         <label>Data si ora:</label>
+        <!-- datetime-local trimite format "yyyy-MM-ddTHH:mm", parsat cu LocalDateTime.parse() -->
         <input name="appointmentDateTime" type="datetime-local" required/>
     </div>
     <div>

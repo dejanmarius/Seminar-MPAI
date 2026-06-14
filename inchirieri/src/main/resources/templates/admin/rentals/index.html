@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin - Cereri inchiriere</title></head>
+<head>
+<title>Admin - Cereri inchiriere</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Admin - Cereri de inchiriere</h1>
 
+<!-- Filtru combinat: toti parametrii sunt optionali -->
+<!-- method="get" -> parametrii ajung in URL ca query string -->
 <form th:action="@{/admin/rentals}" method="get">
     <input name="userName" type="text" placeholder="Utilizator..."/>
     <input name="equipmentName" type="text" placeholder="Echipament..."/>
+    <!-- dropdown cu toate valorile enum-ului RentalStatus, trimis din controller -->
     <select name="status">
         <option value="">-- Toate starile --</option>
         <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
     </select>
+    <!-- filtrul de data cauta cereri active in ziua respectiva (startDate <= data <= endDate) -->
     <input name="date" type="date"/>
     <button type="submit">Filtreaza</button>
+    <!-- link fara parametri = reseteaza toate filtrele -->
     <a th:href="@{/admin/rentals}">Reseteaza</a>
 </form>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th><th>Utilizator</th><th>Echipament</th><th>De la</th>

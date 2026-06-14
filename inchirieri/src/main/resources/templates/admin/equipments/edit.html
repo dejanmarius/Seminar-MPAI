@@ -2,14 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Admin - Echipament</title></head>
 <body>
+<!-- titlul se schimba dinamic in functie de flagul "editing" trimis din controller -->
 <h1 th:text="${editing} ? 'Editeaza echipament' : 'Adauga echipament'"></h1>
 
+<!-- acelasi template pentru adaugare si editare -->
+<!-- action se schimba: la editare merge la /{id}/update, la adaugare la /save -->
 <form th:action="${editing}
             ? @{'/admin/equipments/' + ${equipment.id} + '/update'}
             : @{/admin/equipments/save}"
       method="post">
     <div>
         <label>Nume:</label>
+        <!-- th:value prepopuleaza campul cu valoarea existenta la editare -->
         <input name="name" type="text" th:value="${equipment.name}" required/>
     </div>
     <div>
@@ -18,6 +22,8 @@
     </div>
     <div>
         <label>Disponibil:</label>
+        <!-- th:checked bifeaza checkbox-ul daca equipment.available e true -->
+        <!-- value="true" e necesar: checkbox debifat nu trimite nimic, bifat trimite "true" -->
         <input name="available" type="checkbox" value="true" th:checked="${equipment.available}"/>
     </div>
     <button type="submit">Salveaza</button>

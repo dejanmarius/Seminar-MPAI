@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Cererile mele</title></head>
+<head>
+<title>Cererile mele</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Cereri de inchiriere</h1>
 
+<!-- Filtru dupa numele utilizatorului — trimite GET cu parametrul userName -->
 <form th:action="@{/rentals}" method="get">
     <input name="userName" type="text" placeholder="Cauta dupa nume utilizator..."/>
     <button type="submit">Cauta</button>
@@ -11,7 +15,7 @@
 
 <a th:href="@{/rentals/add}">+ Cerere noua</a>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th><th>Utilizator</th><th>Email</th><th>Echipament</th>
@@ -19,6 +23,7 @@
     </tr>
     </thead>
     <tbody>
+    <!-- th:each itereaza lista "rentals" din model, variabila curenta e "r" -->
     <tr th:each="r : ${rentals}">
         <td th:text="${r.id}"></td>
         <td th:text="${r.userName}"></td>
@@ -29,11 +34,13 @@
         <td th:text="${r.purpose}"></td>
         <td th:text="${r.status}"></td>
         <td>
-            <!-- Anulare doar inainte de aprobare (stare CERUTA) -->
+            <!-- th:if afiseaza butonul doar daca campul cancellable din DTO e true -->
+            <!-- cancellable=true doar in starea CERUTA (inainte de aprobare) -->
             <form th:if="${r.cancellable}"
                   th:action="@{'/rentals/' + ${r.id} + '/cancel'}" method="post">
                 <button type="submit">Anuleaza</button>
             </form>
+            <!-- th:unless e opusul lui th:if -->
             <span th:unless="${r.cancellable}">-</span>
         </td>
     </tr>

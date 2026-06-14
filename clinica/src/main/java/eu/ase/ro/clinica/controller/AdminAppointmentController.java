@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Interfata admin/receptie: vede toate programarile, filtreaza dupa
- * stare/medic/pacient/data, confirma/anuleaza si marcheaza ca efectuata.
- */
+// Interfata admin/receptie: vede toate programarile, filtreaza si schimba stari.
 @Controller
 @RequestMapping("/admin/appointments")
 public class AdminAppointmentController {
@@ -24,6 +21,8 @@ public class AdminAppointmentController {
         this.appointmentService = appointmentService;
     }
 
+    // GET /admin/appointments — lista cu toate programarile, toate filtrele optionale
+    // parametrii cu required=false sunt null daca nu sunt trimisi din form
     @GetMapping
     public String list(@RequestParam(required = false) String status,
                        @RequestParam(required = false) String doctorName,
@@ -32,10 +31,13 @@ public class AdminAppointmentController {
                        Model model) {
         model.addAttribute("appointments",
                 appointmentService.filter(status, doctorName, patientName, date));
+        // trimitem toate valorile enum-ului pentru dropdown-ul de filtrare dupa stare
         model.addAttribute("statuses", AppointmentStatus.values());
         return "admin/appointments/index";
     }
 
+    // GET /admin/appointments/{id} — detalii programare + form schimbare stare
+    // trimitem si starile posibile pentru dropdown-ul de selectie stare noua
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
         model.addAttribute("appointment", appointmentService.findById(id));
@@ -43,9 +45,11 @@ public class AdminAppointmentController {
         return "admin/appointments/detail";
     }
 
+    // POST /admin/appointments/{id}/status — schimba starea
+    // service-ul valideaza ca tranzitia e permisa conform nextStates()
     @PostMapping("/{id}/status")
     public String changeStatus(@PathVariable Long id, @RequestParam String newStatus) {
         appointmentService.updateStatus(id, newStatus);
-        return "redirect:/admin/appointments/" + id;
+        return "redirect:/admin/appointments/" + id; // inapoi la detalii dupa modificare
     }
 }

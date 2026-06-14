@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin - Catalog medici</title></head>
+<head>
+<title>Admin - Catalog medici</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Admin - Catalog medici</h1>
 
 <a th:href="@{/admin/doctors/add}">+ Adauga medic</a>
 
-<table border="1">
+<table>
     <thead>
     <tr><th>ID</th><th>Nume</th><th>Specializare</th><th>Actiuni</th></tr>
     </thead>
@@ -17,6 +20,7 @@
         <td th:text="${d.specialization}"></td>
         <td>
             <a th:href="@{'/admin/doctors/' + ${d.id} + '/edit'}">Editeaza</a>
+            <!-- DELETE prin POST: HTML nu suporta metoda DELETE in form-uri -->
             <form th:action="@{'/admin/doctors/' + ${d.id} + '/delete'}"
                   method="post" style="display:inline">
                 <button type="submit">Sterge</button>

@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin - Programari</title></head>
+<head>
+<title>Admin - Programari</title>
+<style>table { border-collapse: collapse; } th, td { border: 1px solid black; padding: 4px 8px; }</style>
+</head>
 <body>
 <h1>Admin - Programari</h1>
 
+<!-- Filtru combinat: toti parametrii sunt optionali -->
+<!-- method="get" -> parametrii ajung in URL ca query string (?status=...&doctorName=...) -->
 <form th:action="@{/admin/appointments}" method="get">
     <input name="patientName" type="text" placeholder="Pacient..."/>
     <input name="doctorName" type="text" placeholder="Medic..."/>
+    <!-- dropdown cu toate valorile enum-ului AppointmentStatus, trimis din controller -->
     <select name="status">
         <option value="">-- Toate starile --</option>
+        <!-- th:value="${s}" trimite numele enum-ului (ex: "CONFIRMATA") -->
         <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
     </select>
+    <!-- type="date" trimite format "yyyy-MM-dd", parsat cu LocalDate.parse() in service -->
     <input name="date" type="date"/>
     <button type="submit">Filtreaza</button>
+    <!-- link simplu fara parametri = reseteaza toate filtrele -->
     <a th:href="@{/admin/appointments}">Reseteaza</a>
 </form>
 
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>ID</th><th>Pacient</th><th>Medic</th><th>Data si ora</th>
@@ -31,6 +40,7 @@
         <td th:text="${a.appointmentDateTime}"></td>
         <td th:text="${a.reason}"></td>
         <td th:text="${a.status}"></td>
+        <!-- link catre pagina de detalii unde se poate schimba starea -->
         <td><a th:href="@{'/admin/appointments/' + ${a.id}}">Detalii / Modifica stare</a></td>
     </tr>
     </tbody>
